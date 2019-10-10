@@ -1,4 +1,4 @@
-from,mails,weight,to
+source,mails,weight,target
 0,5,1,1
 0,6,1,2
 1,5,1,2

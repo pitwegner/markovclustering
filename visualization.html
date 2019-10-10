@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <title>E-Mail Data Visualization</title>
+  <style>
+    .links line {
+      stroke: #999;
+      stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+      fill: #d62333;
+      stroke: #fff;
+      stroke-width: 2px;
+    }
+  </style>
+</head>
+<body>
+  <svg></svg>
+  <script src="data.js"></script>
+  <script>
+    const WIDTH = window.innerWidth
+    const HEIGHT = window.innerHeight
+    const radius = Math.min(WIDTH, HEIGHT)/2;
+    const drag = d3.drag()
+      .on('start', dragStart)
+      .on('drag', dragging)
+      .on('end', dragEnd);
+
+    const svg = d3.select('svg')
+      .attr('width', WIDTH)
+      .attr('height', HEIGHT)
+
+    const forceSim = d3.forceSimulation()
+      .force('link', d3.forceLink().id((d) => d.id))
+      .force('charge', d3.forceManyBody())
+      .force('center', d3.forceCenter(WIDTH/2, HEIGHT/2));
+
+    function dragStart (d) {
+      if (!d3.event.active) forceSim.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragging (d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+    function dragEnd (d) {
+      if (!d3.event.active) forceSim.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+
+  const linkWidth = d3.scaleLinear().range([1, 10])
+  linkWidth.domain(d3.extent(links, (d) => d.mails))
+
+  const link = svg.append('g')
+    .attr('class', 'links')
+    .selectAll('line')
+    .data(links)
+    .enter().append('line')
+    .attr('stroke-width', (d) => linkWidth(d.mails))
+
+  const node = svg.append('g')
+    .attr('class', 'nodes')
+    .selectAll('circle')
+    .data(nodes)
+    .enter().append('circle')
+    .attr('r', "10")
+    .call(drag)
+
+  node.append('title').text((d) => d.name)
+
+  forceSim.nodes(nodes).on('tick', tick)
+  forceSim.force('link').links(links)
+  
+  function tick () {
+    link
+      .attr('x1', (d) => d.source.x)
+      .attr('x2', (d) => d.target.x)
+      .attr('y1', (d) => d.source.y)
+      .attr('y2', (d) => d.target.y)
+
+    node
+      .attr('cx', (d) => d.x)
+      .attr('cy', (d) => d.y)
+  }
+
+  </script>
+</body>
+</html>
