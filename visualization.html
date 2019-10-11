@@ -37,8 +37,10 @@
       .attr('height', HEIGHT)
 
     const forceSim = d3.forceSimulation()
-      .force('link', d3.forceLink().id((d) => d.id))
-      .force('charge', d3.forceManyBody())
+      .force('link', d3.forceLink()
+        .id((d) => d.id)
+        .distance((d) => 100))
+      .force('charge', d3.forceManyBody().strength(-1000))
       .force('center', d3.forceCenter(WIDTH/2, HEIGHT/2));
 
     function dragStart (d) {
