@@ -7,7 +7,7 @@ Graph.cooldownTicks(200)
   .nodeAutoColorBy('position')
   .linkDirectionalParticles('weight')
   .forceEngine('ngraph')
-  .jsonUrl('.miserables.json')
+  .graphData(data)
   .linkPositionUpdate((obj, {start, end}, link) => {
     node_positions[link.source] = new THREE.Vector3(start.x, start.y, start.z)
     node_positions[link.target] = new THREE.Vector3(end.x, end.y, end.z)
