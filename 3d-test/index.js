@@ -1,5 +1,5 @@
 let clusterMaterial = {color: 0x00ff00, transparent: true, opacity: 0.4}
-
+let data = clustered_data
 
 const Graph = ForceGraph3D()
 	(document.getElementById("3d-graph"));
@@ -7,7 +7,7 @@ Graph.resetProps();
 Graph.cooldownTicks(200)
   .nodeLabel('name')
   .nodeAutoColorBy('position')
-  .linkWidth(2)
+  .linkWidth(1)
   .linkMaterial((link) => {
     if (data.clusters.filter((cluster) => {
       return cluster.length === 2 && cluster[0] === link.source && cluster[1] === link.target
@@ -27,7 +27,7 @@ Graph.cooldownTicks(200)
         .filter((c) => cluster.includes(c.__data.id))
         .map((n) => n.position)
 
-      let material = clusterMaterial
+      let material = {...clusterMaterial}
       let geometry
       if (node_positions.length > 3) {
         geometry = new THREE.ConvexGeometry(node_positions)
