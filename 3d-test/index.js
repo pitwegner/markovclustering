@@ -1,5 +1,5 @@
 let clusterMaterial = {color: 0x00ff00, transparent: true, opacity: 0.4}
-let data = clustered_data
+let data = weight_clustered_data
 
 const Graph = ForceGraph3D()
 	(document.getElementById("3d-graph"));
@@ -15,7 +15,8 @@ Graph.cooldownTicks(200)
 
   })
   .linkDirectionalParticleWidth(2)
-  .linkDirectionalParticles('weight')
+  .linkDirectionalParticles((link) => link.weight + 1)
+  .linkDirectionalParticleSpeed(0)
   .forceEngine('ngraph')
   .graphData(data)
   .onEngineStop(() => {
