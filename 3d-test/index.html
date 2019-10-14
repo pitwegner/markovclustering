@@ -8,6 +8,29 @@
 
 <body>
     <div id="3d-graph"></div>
+
+    <div id="interact" style="position: absolute; top: 0; left: 0; color: white; text-align: left">
+        <form name="choose_cluster">
+            <fieldset>
+                <legend>Clustering</legend>
+                <input type="radio" name="cluster" value="none" />None<br>
+                <input type="radio" name="cluster" value="weight" />Weights<br>
+                <input type="radio" name="cluster" value="uniform" />Uniform<br>
+            </fieldset>
+        </form>
+    </div>
+    <script>
+        const url = new URL(window.location.href)
+        console.log(url)
+        const cluster = url.searchParams.get("cluster")
+        var rad = document.choose_cluster.cluster;
+        for (var i = 0; i < rad.length; i++) {
+            rad[i].checked = (cluster === rad[i].value || rad[i].value === 'none' && !['weight', 'uniform'].includes(cluster))
+            rad[i].addEventListener('change', function() {
+                window.location.href = url.pathname + '?cluster=' + this.value
+            });
+        }
+    </script>
     <script src="ConvexGeometry.js"></script>
     <script src="ConvexHull.js"></script>
     <script src="data.js"></script>	

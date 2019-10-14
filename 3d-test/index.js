@@ -1,6 +1,4 @@
 let clusterMaterial = {color: 0xffff00, transparent: true, opacity: 0.7}
-const url = new URL(window.location.href)
-const cluster = url.searchParams.get("cluster")
 let data
 if (cluster === 'weight') {
   data = weight_clustered_data
