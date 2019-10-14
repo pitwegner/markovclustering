@@ -55,6 +55,7 @@ Graph.cooldownTicks(200)
       if (node_positions.length > 3) {
         geometry = new THREE.ConvexGeometry(node_positions)
         const mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(material))
+        mesh.renderOrder = 999
         scene.add(mesh)
       } else if(node_positions.length === 3) {
         geometry = new THREE.Geometry();
@@ -62,6 +63,7 @@ Graph.cooldownTicks(200)
         geometry.faces.push(new THREE.Face3(0, 1, 2))
         material.side = THREE.DoubleSide
         const mesh = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(material))
+        mesh.renderOrder = 999
         scene.add(mesh)
       } else if(node_positions.length === 2) {
 
@@ -71,6 +73,7 @@ Graph.cooldownTicks(200)
         geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 2));
 
         const line = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(material))
+        line.renderOrder = 999
 
         const start = node_positions[0]
         const end = node_positions[1]
