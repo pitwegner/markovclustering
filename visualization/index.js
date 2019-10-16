@@ -73,7 +73,7 @@ Graph.cooldownTicks(200)
         geometry.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 2));
 
         const line = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial(material))
-        line.renderOrder = 999
+        line.renderOrder = 1000
 
         const start = node_positions[0]
         const end = node_positions[1]
